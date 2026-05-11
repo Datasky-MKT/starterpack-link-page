@@ -24,7 +24,8 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
+
 
 body {
   font-family: 'Inter', system-ui, sans-serif;
@@ -191,16 +192,21 @@ body::after {
 ════════════════════════════════════ */
 .carousel-wrap { display: flex; flex-direction: column; gap: 20px; }
 
+/* Mobile: sem breakout, fica dentro do container */
 .carousel-row {
   position: relative;
-  width: 100vw;
-  max-width: 1200px;
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 0 32px;
+  width: 100%;
+  padding: 0;
 }
+/* Desktop: breakout pra 100vw */
 @media (min-width: 768px) {
-  .carousel-row { padding: 0 48px; }
+  .carousel-row {
+    width: 100vw;
+    max-width: 1200px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0 48px;
+  }
 }
 
 .carousel-viewport { overflow: hidden; border-radius: 16px; width: 100%; }
@@ -295,27 +301,48 @@ body::after {
 .corp-footer-copyright { font-size: 12px; color: rgba(255,255,255,0.3); }
 
 /* ════════════════════════════════════
-   MOBILE (< 480px) — overrides finos
+   MOBILE — tudo abaixo de 768px
 ════════════════════════════════════ */
-@media (max-width: 479px) {
-  .container { padding: 0 16px; }
+@media (max-width: 767px) {
+  /* Container com padding generoso */
+  .container { padding: 0 20px; }
 
-  /* Carousel — padding menor para a imagem ocupar mais tela */
-  .carousel-row { padding: 0 20px; }
-  .carousel-arrow { width: 36px; height: 36px; }
-  .carousel-arrow svg { width: 15px; height: 15px; }
-  .carousel-arrow[id$="-prev"] { left: 6px; }
-  .carousel-arrow[id$="-next"] { right: 6px; }
+  /* Títulos — quebram naturalmente, sem overflow */
+  .main-title {
+    font-size: clamp(22px, 7vw, 36px);
+    letter-spacing: -0.025em;
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+  .section-sub {
+    font-size: 14px;
+    word-break: break-word;
+  }
 
-  /* Partners — 1 coluna já está definida, apenas garante sem overflow */
+  /* Setas do carousel — sobrepostas nas bordas da imagem */
+  .carousel-arrow {
+    width: 36px; height: 36px;
+  }
+  .carousel-arrow svg { width: 14px; height: 14px; }
+  .carousel-arrow[id$="-prev"] { left: 8px; }
+  .carousel-arrow[id$="-next"] { right: 8px; }
+
+  /* Partners — 1 coluna, imagem ocupa toda a largura */
+  .partners-grid { grid-template-columns: 1fr; gap: 16px; }
   .banner-link.partner .banner-visual { max-width: 100%; }
 
-  /* Section label menor */
-  .section-label { font-size: 9px; letter-spacing: 0.18em; }
+  /* Section label não estoura */
+  .section-label {
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    overflow: hidden;
+  }
 
-  /* Footer meta quebra bem em tela pequena */
-  .corp-footer-meta { font-size: 11px; }
+  /* Footer */
+  .corp-footer-brand { font-size: 15px; }
+  .corp-footer-meta { font-size: 11px; word-break: break-word; }
   .corp-footer-links { gap: 8px; font-size: 11px; }
+  .corp-footer-copyright { font-size: 11px; }
 }
 </style>
 </head>
