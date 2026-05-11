@@ -82,8 +82,8 @@ body::after {
 .page-wrap {
   position: relative; z-index: 2;
   display: flex; flex-direction: column;
-  gap: 72px;
-  padding: 56px 0 0;
+  gap: clamp(40px, 6vw, 72px);
+  padding: clamp(32px, 5vw, 56px) 0 0;
 }
 
 /* ── SECTION BLOCK ── */
@@ -108,13 +108,12 @@ body::after {
   border: 1px solid rgba(245,158,11,0.28);
 }
 .main-title {
-  font-size: clamp(28px, 4.5vw, 52px);
-  font-weight: 800; letter-spacing: -0.035em; line-height: 1.1; color: #fff;
-  white-space: nowrap;
+  font-size: clamp(26px, 6vw, 52px);
+  font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; color: #fff;
 }
-.section-sub { font-size: 16px; color: #a1a1aa; line-height: 1.55; white-space: nowrap; }
+.section-sub { font-size: clamp(13px, 3.5vw, 16px); color: #a1a1aa; line-height: 1.55; }
 .main-title .accent { color: var(--cyan); text-shadow: 0 0 18px rgba(0,217,255,0.55), 0 0 40px rgba(0,217,255,0.28); }
-.page-header { display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center; }
+.page-header { display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; }
 
 /* ════════════════════════════════════
    BANNER — clicável, sem texto interno
@@ -294,6 +293,30 @@ body::after {
 .corp-footer-links a:hover { color: rgba(0,217,255,0.7); }
 .corp-footer-sep { color: rgba(255,255,255,0.2); }
 .corp-footer-copyright { font-size: 12px; color: rgba(255,255,255,0.3); }
+
+/* ════════════════════════════════════
+   MOBILE (< 480px) — overrides finos
+════════════════════════════════════ */
+@media (max-width: 479px) {
+  .container { padding: 0 16px; }
+
+  /* Carousel — padding menor para a imagem ocupar mais tela */
+  .carousel-row { padding: 0 20px; }
+  .carousel-arrow { width: 36px; height: 36px; }
+  .carousel-arrow svg { width: 15px; height: 15px; }
+  .carousel-arrow[id$="-prev"] { left: 6px; }
+  .carousel-arrow[id$="-next"] { right: 6px; }
+
+  /* Partners — 1 coluna já está definida, apenas garante sem overflow */
+  .banner-link.partner .banner-visual { max-width: 100%; }
+
+  /* Section label menor */
+  .section-label { font-size: 9px; letter-spacing: 0.18em; }
+
+  /* Footer meta quebra bem em tela pequena */
+  .corp-footer-meta { font-size: 11px; }
+  .corp-footer-links { gap: 8px; font-size: 11px; }
+}
 </style>
 </head>
 <body>
