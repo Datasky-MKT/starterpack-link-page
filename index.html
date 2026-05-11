@@ -75,10 +75,11 @@ body::after {
 .container {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 20px;          /* mobile base */
   position: relative; z-index: 2;
 }
-@media (min-width: 768px) { .container { padding: 0 48px; } }
+@media (min-width: 768px)  { .container { padding: 0 32px; } }  /* tablet */
+@media (min-width: 1024px) { .container { padding: 0 48px; } }  /* desktop */
 
 .page-wrap {
   position: relative; z-index: 2;
@@ -109,8 +110,9 @@ body::after {
   border: 1px solid rgba(245,158,11,0.28);
 }
 .main-title {
-  font-size: clamp(26px, 6vw, 52px);
+  font-size: clamp(38px, 4vw, 52px); /* desktop ≥1024px: 41px→52px */
   font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; color: #fff;
+  word-break: break-word; overflow-wrap: break-word;
 }
 .section-sub { font-size: clamp(13px, 3.5vw, 16px); color: #a1a1aa; line-height: 1.55; }
 .main-title .accent { color: var(--cyan); text-shadow: 0 0 18px rgba(0,217,255,0.55), 0 0 40px rgba(0,217,255,0.28); }
@@ -192,19 +194,24 @@ body::after {
 ════════════════════════════════════ */
 .carousel-wrap { display: flex; flex-direction: column; gap: 20px; }
 
-/* Mobile: sem breakout, fica dentro do container */
+/* Carousel row — breakout proporcional ao padding do container
+   Usa calc(100% + 2×padding) para nunca usar 100vw (sem overflow de scrollbar) */
 .carousel-row {
   position: relative;
   width: 100%;
   padding: 0;
 }
-/* Desktop: breakout pra 100vw */
-@media (min-width: 768px) {
+@media (min-width: 768px) {   /* tablet: container padding = 32px */
   .carousel-row {
-    width: 100vw;
-    max-width: 1200px;
-    left: 50%;
-    transform: translateX(-50%);
+    width: calc(100% + 64px);
+    margin-left: -32px;
+    padding: 0 32px;
+  }
+}
+@media (min-width: 1024px) {  /* desktop: container padding = 48px */
+  .carousel-row {
+    width: calc(100% + 96px);
+    margin-left: -48px;
     padding: 0 48px;
   }
 }
@@ -301,48 +308,56 @@ body::after {
 .corp-footer-copyright { font-size: 12px; color: rgba(255,255,255,0.3); }
 
 /* ════════════════════════════════════
-   MOBILE — tudo abaixo de 768px
+   MOBILE  (< 768px)
 ════════════════════════════════════ */
 @media (max-width: 767px) {
-  /* Container com padding generoso */
-  .container { padding: 0 20px; }
-
-  /* Títulos — quebram naturalmente, sem overflow */
   .main-title {
-    font-size: clamp(22px, 7vw, 36px);
+    font-size: clamp(22px, 7vw, 34px);
     letter-spacing: -0.025em;
     word-break: break-word;
     overflow-wrap: break-word;
   }
-  .section-sub {
-    font-size: 14px;
-    word-break: break-word;
-  }
+  .section-sub { font-size: 14px; word-break: break-word; }
 
-  /* Setas do carousel — sobrepostas nas bordas da imagem */
-  .carousel-arrow {
-    width: 36px; height: 36px;
-  }
+  .carousel-arrow { width: 36px; height: 36px; }
   .carousel-arrow svg { width: 14px; height: 14px; }
   .carousel-arrow[id$="-prev"] { left: 8px; }
   .carousel-arrow[id$="-next"] { right: 8px; }
 
-  /* Partners — 1 coluna, imagem ocupa toda a largura */
   .partners-grid { grid-template-columns: 1fr; gap: 16px; }
   .banner-link.partner .banner-visual { max-width: 100%; }
 
-  /* Section label não estoura */
-  .section-label {
-    font-size: 9px;
-    letter-spacing: 0.16em;
-    overflow: hidden;
-  }
+  .section-label { font-size: 9px; letter-spacing: 0.16em; overflow: hidden; }
 
-  /* Footer */
   .corp-footer-brand { font-size: 15px; }
   .corp-footer-meta { font-size: 11px; word-break: break-word; }
   .corp-footer-links { gap: 8px; font-size: 11px; }
   .corp-footer-copyright { font-size: 11px; }
+}
+
+/* ════════════════════════════════════
+   TABLET  (768px – 1023px)
+════════════════════════════════════ */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .main-title {
+    font-size: clamp(28px, 4.2vw, 40px);
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+  .section-sub { font-size: 15px; }
+
+  .carousel-arrow { width: 40px; height: 40px; }
+  .carousel-arrow svg { width: 16px; height: 16px; }
+  .carousel-arrow[id$="-prev"] { left: 10px; }
+  .carousel-arrow[id$="-next"] { right: 10px; }
+
+  /* Partners: 2 colunas no tablet */
+  .partners-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  .section-label { font-size: 10px; letter-spacing: 0.18em; }
+
+  .corp-footer-brand { font-size: 16px; }
+  .corp-footer-meta { font-size: 12px; word-break: break-word; }
 }
 </style>
 </head>
